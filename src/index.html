@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>fantastic-map-app</title>
+    <!-- build:css -->
+    <link href="https://github.com/julianfresco/udacity.frontenddev.p5css/styles.css" rel="stylesheet">
+    <!-- endbuild -->
+    <!-- build:js -->
+    <script src="https://github.com/julianfresco/udacity.frontenddev.p5node_modules/babel-core/browser-polyfill.js"></script>
+    <script src="https://github.com/julianfresco/udacity.frontenddev.p5app/require.config.js"></script>
+    <script data-main="app/startup" src="https://github.com/julianfresco/udacity.frontenddev.p5bower_components/requirejs/require.js"></script>
+    <!-- endbuild -->
+</head>
+
+<body>
+    
+    <router data-bind="visible: !dialoger.isDialogOpen()" params="{ title: router.currentRouteTitle }"></router>
+    <dialoger data-bind="visible: dialoger.isDialogOpen" params="{ title: dialoger.currentDialogTitle }"></dialoger>
+    <modaler class="modal fade" data-bind="visible: modaler.isModalOpen" params="{ title: modaler.currentModalTitle }"></modaler>
+</body>
+
+</html>

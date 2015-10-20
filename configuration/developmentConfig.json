@@ -1,0 +1,5 @@
+{
+    "port": 1337,
+    "sourceMap": true,
+    "serverPath": "./dev"
+}
