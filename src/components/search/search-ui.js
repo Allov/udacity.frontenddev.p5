@@ -11,6 +11,9 @@ define(['text!./search.html', 'knockout'],
             self.query = params.query;
             self.clear = params.clear;
 
+            /*
+             * Sets the clicked place to selected
+             */
             self.selectItem = function(){
                 self.selected(this);
             };

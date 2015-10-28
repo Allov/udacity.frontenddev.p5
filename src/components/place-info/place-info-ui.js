@@ -6,9 +6,30 @@ define(['text!./place-info.html', 'knockout'],
             self = this;
 
             self.selected = params.selected;
+            self.showDesc = ko.observable(false);
 
+            /*
+             * Close Place Info by unsetting selected place
+             */
             self.close = function(){
                 self.selected(null);
+            };
+
+            /*
+             * Create a truncated description to show
+             */
+            self.truncatedDesc = ko.pureComputed(function(){
+                if (self.selected() && self.selected().description) {
+                    return self.selected().description.slice(0, 125) + ' ...';
+                }
+                return '';
+            }).extend({ notify: 'always' });
+
+            /*
+             * Toggle showDesc
+             */
+            self.showDescription = function(){
+                self.showDesc(!self.showDesc());
             };
 
         };

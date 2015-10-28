@@ -6,8 +6,15 @@ define(['text!./main-page.html', 'knockout'],
             var self = this;
 
             self.params = params;
+            self.searchQuery = ko.observable();
+            self.selectedPlace = ko.observable();
+            self.apis = {
+                    wikipedia: "https://en.wikipedia.org/w/api.php?format=json&action=query&redirects=true&prop=extracts&exintro=true&explaintext=true&exsectionformat=plain&titles="
+            };
 
-            // Define places model
+            /*
+             * Places model
+             */
             self.places = ko.observableArray( [{"name":"Santa Monica Pier"},
                 {"name":"Santa Monica State Beach"},
                 {"name":"Third Street Promenade"},
@@ -43,28 +50,64 @@ define(['text!./main-page.html', 'knockout'],
                 {"name":"Petersen Automotive Museum"},
                 {"name":"The Grammy Museum"},
                 {"name":"El Capitan Theatre"},
-                {"name":"The Grove"},
-                {"name":"Greek Theatre"}
+                {"name":"The Grove at Farmers Market"},
+                {"name":"Greek Theatre (Los Angeles)"}
             ]);
 
-            self.searchQuery = ko.observable();
+            /*
+             * Clears the search query
+             */
             self.clearQuery = function(){
                     self.searchQuery('');
             };
 
+            /*
+             * Computes a filtered list of places based on the search query
+             */
             self.filteredPlaces = ko.pureComputed(function(){
                 var q = self.searchQuery();
-                // No search query, do not filter places
+                // If no search query, do not filter
                 if (!q) {
                     return self.places();
                 }
-                // Filter places
+                // Search query present, filter places
                 return self.places().filter(function(place){
                     return place.name.toLowerCase().indexOf(q.toLowerCase()) > -1;
                 });
             }).extend({ notify: 'always' });
 
-            self.selectedPlace = ko.observable();
+
+            /*
+             * Fetches data from Third-party API's when DOM is ready,
+             * this improves the UX
+             */
+            self.fetchAPIdata = function(){
+                    // Loop through places
+                    self.places().forEach(function(item){
+                        // Fetch Wikipedia data
+                        (function(p){
+                                $.ajax({
+                                        type: "POST",
+                                        dataType: 'jsonp',
+                                        url: self.apis.wikipedia + p.name, 
+                                        success: function( data ) {
+                                                for(var val in data.query.pages ) {
+                                                        if(data.query.pages[val].extract) {
+                                                                p.description = data.query.pages[val].extract;
+                                                        }
+                                                }
+                                        }
+                                });
+                        })(item);
+
+                        // Fetch other data ...
+                    });
+            };
+
+            /*
+             * Invokes fetchAPIdata when DOM is loaded
+             */
+            $(self.fetchAPIdata);
             
         };
 
