@@ -1,0 +1,26 @@
+<div data-bind="visible: !selected()">
+  <!-- Search Input -->
+  <div class="form-group search-input-container">
+    <label for="search-input">Search</label>
+
+    <div class="input-group">
+      <span class="input-group-addon"><i class="fa fa-search"></i></span>
+      <input name="search-input" class="search-input form-control" type="text" data-bind="value: query, valueUpdate: 'afterkeydown'" placeholder="Search">
+      <span class="input-group-btn">
+        <button class="btn btn-danger" type="button" data-bind="click: clear">
+          <i class="fa fa-times"></i>
+        </button>
+      </span>
+    </div>
+  </div>
+
+  <!-- Search Results List -->
+  <ul class="search-list" data-bind="foreach: list">
+    <li class="search-list-item" data-bind="click: $parent.selectItem, css: {active: $parent.selected() && name === $parent.selected().name}">
+      <span data-bind="text: name"></span>
+    </li>
+  </ul>
+</div>
+
+<!-- Place Info Block -->
+<place-info params="selected: selected" data-bind="visible: selected()"></place-info>

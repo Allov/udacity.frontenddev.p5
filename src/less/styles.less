@@ -14,4 +14,60 @@
     bottom: 0;
 }
 
+body {
+    max-height: 100%;
+}
+
 // Components
+
+// Map
+map {
+    background: aqua;
+    z-index: -1;
+    transition: all 0.5s ease-in-out;
+}
+
+// Search
+search {
+    z-index: 1;
+    background: #fff;
+    padding: 10px;
+    transition: all 0.5s ease-in-out;
+}
+
+.search-list {
+    list-style: none;
+    padding-left: 0;
+}
+
+.search-list-item {
+    padding: .4em .8em;
+}
+
+.search-list-item:hover {
+    background: #eeeeee;
+    cursor: pointer;
+}
+
+.search-list-item.active {
+    background: #eeeeee;
+}
+
+// Place Info
+.place-info-close {
+    position: absolute;
+    top: 6px;
+    left: 10px;
+    font-size: 1.1em;
+    cursor: pointer;
+    padding: 6px;
+}
+
+.place-info-close:after {
+    content: ' Back to Search';
+    font-size: 0.9em;
+}
+
+.place-info-close:hover {
+    color: #111188;
+}

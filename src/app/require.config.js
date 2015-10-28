@@ -3,7 +3,8 @@
 //
 
 var require = {
-    baseUrl: 'https://github.com/julianfresco/udacity.frontenddev.p5',
+//    baseUrl: 'https://github.com/julianfresco/udacity.frontenddev.p5/', // prod
+    baseUrl: 'http://localhost:1337/', // dev
     paths: {
         'configs': './app/configs/configs',
         'configs-transforms': './app/configs/configs.local',
