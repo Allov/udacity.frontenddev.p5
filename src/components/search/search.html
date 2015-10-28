@@ -17,7 +17,7 @@
   <!-- Search Results List -->
   <ul class="search-list" data-bind="foreach: list">
     <li class="search-list-item" data-bind="click: $parent.selectItem, css: {active: $parent.selected() && name === $parent.selected().name}">
-      <span data-bind="text: name"></span>
+      <span class="fa fa-map-marker"></span> <span data-bind="text: name"></span>
     </li>
   </ul>
 </div>
