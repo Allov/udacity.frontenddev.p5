@@ -1,5 +1,5 @@
-define(['text!./map.html', 'knockout', 'jquery'],
-    function(template, ko, $) {
+define(['text!./map.html', 'knockout'],
+    function(template, ko) {
         'use strict';
 
         var Map = function(params, componentInfo) {
@@ -8,7 +8,11 @@ define(['text!./map.html', 'knockout', 'jquery'],
             self.list = params.list;
             self.selected = params.selected;
 
-            self.map = window.map;
+            self.map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: 34.023, lng: -118.390},
+                zoom: 12,
+                mapTypeControl: false
+            });
 
             /** Create markers for all places */
             self.list().forEach(function(place){
@@ -61,7 +65,7 @@ define(['text!./map.html', 'knockout', 'jquery'],
 
         // This runs when the component is torn down. Put here any logic necessary to clean up,
         // for example cancelling setTimeouts or disposing Knockout subscriptions/computeds.
-        Map .prototype.dispose = function() {};
+        Map.prototype.dispose = function() {};
 
         return {
             viewModel: {

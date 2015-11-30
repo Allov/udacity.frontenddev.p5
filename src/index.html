@@ -9,11 +9,7 @@
     <!-- build:css -->
     <link href="css/styles.css" rel="stylesheet">
     <!-- endbuild -->
-    <!-- build:js -->
-    <script src="node_modules/babel-core/browser-polyfill.js"></script>
-    <script src="app/require.config.js"></script>
-    <script data-main="app/startup" src="bower_components/requirejs/require.js"></script>
-    <!-- endbuild -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBmc92xjnK-Pv9SXfL7rjY93BgAyoYXiC8"></script>
 </head>
 
 <body>
@@ -26,22 +22,14 @@
     <!-- Knockout instantiates the map component too slow. We place div#map 
             in index.html so it's ready when Google maps API runs-->
     <div id="mapContainer">
-        <div id="map"></div>
+        <div id="map">&nbsp;</div>
     </div>
 
-    <script>
-        window.map=null;
-        
-        /** Instantiate Google Maps */
-        function initMap() {
-            window.map = new google.maps.Map(document.getElementById('map'), {
-                center: {lat: 34.023, lng: -118.390},
-                zoom: 12,
-                mapTypeControl: false
-            });
-        }
-    </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBmc92xjnK-Pv9SXfL7rjY93BgAyoYXiC8&callback=initMap"></script>
+    <!-- build:js -->
+    <script src="node_modules/babel-core/browser-polyfill.js"></script>
+    <script src="app/require.config.js"></script>
+    <script data-main="app/startup" src="bower_components/requirejs/require.js"></script>
+    <!-- endbuild -->
 </body>
 
 </html>
