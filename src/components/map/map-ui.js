@@ -8,7 +8,6 @@ define(['text!./map.html', 'knockout', 'jquery'],
             self.list = params.list;
             self.selected = params.selected;
 
-            /** Instantiate Google Maps */
             self.map = window.map;
 
             /** Create markers for all places */
@@ -26,10 +25,19 @@ define(['text!./map.html', 'knockout', 'jquery'],
                     title: place.name
                 });
 
-                /** Connect the place's infoWindow to its marker */
-                place.marker.addListener('click', function(){
-                    place.infowindow.open(self.map);
-                });
+                /** 
+                 * Open the place's infoWindow when its marker is clicked
+                 */
+                google.maps.event.addListener(place.marker, 'click', (function(iw, places){
+                    return function(){
+                        /** Close all infowindows on the map */
+                        places().forEach(function(place){
+                            place.infowindow.close();
+                        });
+                        /** Open the current infowindow */
+                        iw.open(this.map, this)
+                    };
+                })(place.infowindow, self.list));
             });
         };
 
