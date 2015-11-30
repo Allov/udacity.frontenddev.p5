@@ -9,7 +9,8 @@ define(['text!./main-page.html', 'knockout'],
             self.searchQuery = ko.observable();
             self.selectedPlace = ko.observable();
             self.apis = {
-                    wikipedia: "https://en.wikipedia.org/w/api.php?format=json&action=query&redirects=true&prop=extracts&exintro=true&explaintext=true&exsectionformat=plain&titles="
+                wikipedia: "https://en.wikipedia.org/w/api.php?format=json&action=query&redirects=true&prop=extracts&exintro=true&explaintext=true&exsectionformat=plain&titles=",
+                giphy: 'http://api.giphy.com/v1/gifs/search?api_key=dc6zaTOxFJmzC&limit=4&q='
             };
 
             /*
@@ -191,33 +192,68 @@ define(['text!./main-page.html', 'knockout'],
              * Fetches data from Third-party API's when DOM is ready,
              * this improves the UX
              */
-            self.fetchAPIdata = function(){
-                    // Loop through places
-                    self.places().forEach(function(item){
-                        // Fetch Wikipedia data
-                        (function(p){
-                                $.ajax({
-                                        type: "POST",
-                                        dataType: 'jsonp',
-                                        url: self.apis.wikipedia + p.name, 
-                                        success: function( data ) {
-                                                for(var val in data.query.pages ) {
-                                                        if(data.query.pages[val].extract) {
-                                                                p.description = data.query.pages[val].extract;
-                                                        }
-                                                }
+            self.fetchWikipediaAPIdata = function(){
+                // Loop through places
+                self.places().forEach(function(item){
+                    // Fetch Wikipedia data
+                    (function(p){
+                        $.ajax({
+                            type: "POST",
+                            dataType: 'jsonp',
+                            url: self.apis.wikipedia + p.name, 
+                            success: function( data ) {
+                                for(var val in data.query.pages ) {
+                                        if(data.query.pages[val].extract) {
+                                                p.description = data.query.pages[val].extract;
                                         }
-                                });
-                        })(item);
+                                }
+                            },
+                            error: function(){
+                                console.error('Failed to retreive data from Wikipedia API.');
+                                p.description = '-- Unable to load description from Wikipedia --';
+                            }
+                        });
+                    })(item);
 
-                        // Fetch other data ...
-                    });
+                    // Fetch other data ...
+                });
             };
 
             /*
-             * Invokes fetchAPIdata when DOM is loaded
+             * Invokes fetchWikipediaAPIdata when DOM is loaded
              */
-            $(self.fetchAPIdata);
+            $(self.fetchWikipediaAPIdata);
+
+            /**
+             * Subscribe to the selected place for changes
+             * - check if giphyImages is defined, fetches data if not present
+             */
+            self.selectedPlace.subscribe(function(selected){
+                /** Get data from Giphy when giphyImages is not defined */
+                if(selected && !selected.giphyImages){
+                    selected.giphyImages = ko.observableArray([]);
+                    // fetch giphy images from API
+                    $.ajax({
+                        type: "GET",
+                        dataType: 'json',
+                        crossDomain: true,
+                        url: self.apis.giphy + selected.name.split(' ').join('+'), 
+                        success: function( data ) {
+                            // Check that there are gifs for consumption
+                            if(data.data.length > 0) {
+                                // Loop through available gifs
+                                data.data.forEach(function(gif){
+                                    // Add gif url to place's giphyImages Array
+                                    selected.giphyImages.push({url: gif.images.fixed_width.url});
+                                });
+                            }
+                        },
+                        error: function(){
+                            console.error('Failed to retreive data from Giphy API.');
+                        }
+                    });
+                }
+            });
             
         };
 
