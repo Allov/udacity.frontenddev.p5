@@ -1,5 +1,5 @@
-define(['text!./map.html', 'knockout'],
-    function(template, ko) {
+define(['text!./map.html', 'knockout', 'google-maps'],
+    function(template, ko, gmaps) {
         'use strict';
 
         var Map = function(params, componentInfo) {
@@ -8,7 +8,7 @@ define(['text!./map.html', 'knockout'],
             self.list = params.list;
             self.selected = params.selected;
 
-            self.map = new google.maps.Map(document.getElementById('map'), {
+            self.map = new gmaps.Map(document.getElementById('map'), {
                 center: {lat: 34.023, lng: -118.390},
                 zoom: 12,
                 mapTypeControl: false
@@ -17,13 +17,13 @@ define(['text!./map.html', 'knockout'],
             /** Create markers for all places */
             self.list().forEach(function(place){
                 /** Create infoWindows for all places */
-                place.infowindow = new google.maps.InfoWindow({
+                place.infowindow = new gmaps.InfoWindow({
                     position: place.coords,
                     content: '<div><h5>'+place.name+'</h5></div>'
                 });
 
                 // Create a marker for each place
-                place.marker = new google.maps.Marker({
+                place.marker = new gmaps.Marker({
                     position: place.coords,
                     map: self.map,
                     title: place.name
@@ -32,7 +32,7 @@ define(['text!./map.html', 'knockout'],
                 /** 
                  * Open the place's infoWindow when its marker is clicked
                  */
-                google.maps.event.addListener(place.marker, 'click', (function(place, selected){
+                gmaps.event.addListener(place.marker, 'click', (function(place, selected){
                     return function(){
                         /** Set selected place */
                         selected(place);

@@ -20,7 +20,9 @@ var require = {
         'modaler': 'bower_components/koco-modaler/src/modaler',
         'knockout-utilities': 'bower_components/koco-knockout-utilities/src/knockout-utilities',
         'router-event': 'bower_components/koco-router/src/router-event',
-        'router-state': 'bower_components/koco-router/src/router-state-push'
+        'router-state': 'bower_components/koco-router/src/router-state-push',
+        'async': 'bower_components/requirejs-plugins/src/async',
+        'google-maps': './app/google-maps.loader'
     },
     packages: [
     { name: 'router',
