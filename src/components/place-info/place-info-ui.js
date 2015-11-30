@@ -12,6 +12,7 @@ define(['text!./place-info.html', 'knockout'],
              * Close Place Info by unsetting selected place
              */
             self.close = function(){
+                self.showDesc(false); // Reset showDesc boolean
                 self.selected(null);
             };
 
@@ -20,7 +21,10 @@ define(['text!./place-info.html', 'knockout'],
              */
             self.truncatedDesc = ko.pureComputed(function(){
                 if (self.selected() && self.selected().description) {
-                    return self.selected().description.slice(0, 125) + ' ...';
+                    if(self.selected().description.length > 75) {
+                        return self.selected().description.slice(0, 75) + ' ...';
+                    }
+                    return self.selected().description;
                 }
                 return '';
             }).extend({ notify: 'always' });

@@ -38,7 +38,8 @@ define(['text!./map.html', 'knockout', 'jquery'],
 
             /**
              * Subscribe to the selected place for changes
-             * - focus the map on the marker
+             * - close other place infowindows
+             * - pan to place's marker, pop-up place's infowindow
              */
             self.selected.subscribe((function(places){
                 return function(selectedPlace){
@@ -51,7 +52,7 @@ define(['text!./map.html', 'knockout', 'jquery'],
                     if(selectedPlace){
                         selectedPlace.infowindow.open(selectedPlace.marker.map, selectedPlace.marker);
                         // Re-center the map
-                        selectedPlace.marker.map.setCenter(selectedPlace.coords);
+                        selectedPlace.marker.map.panTo(selectedPlace.coords);
                     }
                 };
             })(self.list));
