@@ -21,6 +21,26 @@
     <router data-bind="visible: !dialoger.isDialogOpen()" params="{ title: router.currentRouteTitle }"></router>
     <dialoger data-bind="visible: dialoger.isDialogOpen" params="{ title: dialoger.currentDialogTitle }"></dialoger>
     <modaler class="modal fade" data-bind="visible: modaler.isModalOpen" params="{ title: modaler.currentModalTitle }"></modaler>
+
+
+    <!-- Knockout instantiates the map component too slow. We place div#map 
+            in index.html so it's ready when Google maps API runs-->
+    <div id="mapContainer">
+        <div id="map"></div>
+    </div>
+
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBmc92xjnK-Pv9SXfL7rjY93BgAyoYXiC8&callback=initMap"></script>
+
+    <script>
+        window.map=null;
+        function initMap() {
+            window.map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: 34.023, lng: -118.390},
+                zoom: 12,
+                mapTypeControl: false
+            });
+        }
+    </script>
 </body>
 
 </html>
