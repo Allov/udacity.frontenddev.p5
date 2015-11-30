@@ -6,4 +6,19 @@
 <div>
     <p class="place-info-description" data-bind="text: showDesc() ? selected().description : truncatedDesc()"></p>
 </div>
-<span class="place-info-description-toggle" data-bind="click: showDescription, text: showDesc() ? 'Show Less' : 'Show More'"></span>
+
+<div data-bind="if: selected() && selected().description && selected().description.length > 75">
+    <span class="place-info-description-toggle" data-bind="click: showDescription, text: showDesc() ? 'Show Less' : 'Show More'"></span>
+</div>
+
+<div class="place-image-container" 
+  data-bind="if: selected() && selected().giphyImages() &&selected().giphyImages().length > 0">
+  
+  <h5>Images matching <em>&quot;<span data-bind="text: selected().name"></span>&quot;</em></h5>
+
+  <div data-bind="foreach: selected().giphyImages()">
+    <img class="img-thumbnail place-image" 
+        src="images/loading.gif"
+        data-bind="attr: {src: $data.url}" alt="Giphy image">
+  </div>  
+</div>
