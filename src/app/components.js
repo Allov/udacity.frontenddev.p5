@@ -11,7 +11,7 @@ define(['knockout-utilities', 'router', 'dialoger', 'modaler', 'configs'],
         Components.prototype.registerComponents = function() {
             router.registerPage('main');
 
-            koUtilities.registerComponent('map');
+            koUtilities.registerComponent('map-custom');
 
             koUtilities.registerComponent('search');
 
@@ -23,7 +23,7 @@ define(['knockout-utilities', 'router', 'dialoger', 'modaler', 'configs'],
 
             //Register components, dialogs & pages here
 
-            
+
         };
 
         return new Components();
